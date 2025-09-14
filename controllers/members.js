@@ -1,5 +1,10 @@
 // In-memory storage
-const members = new Map();
+export const members = new Map();
+
+// Add dummy members for testing
+members.set(1, { member_id: 1, name: "Alice", age: 25, has_borrowed: true });
+members.set(2, { member_id: 2, name: "Bob", age: 30, has_borrowed: false });
+members.set(3, { member_id: 3, name: "Charlie", age: 22, has_borrowed: true });
 
 const getAllMembers = (req, res) => {
   const allMembers = Array.from(members.values());
@@ -8,7 +13,6 @@ const getAllMembers = (req, res) => {
 const getMemberById = (req, res) => {
   const member_id = parseInt(req.params.id);
   const member = members.get(member_id);
-  console.log(req.params);
 
   if (!member) {
     return res.status(404).json({ message: `Member with id: ${member_id} not found` });
@@ -55,12 +59,35 @@ const updateMember = (req, res) => {
   res.status(200).json(member);
 }
 
+const deleteMember = (req, res) => {
+  const member_id = parseInt(req.params.id);
+  const member = members.get(member_id);
+
+  if (!member) {
+    return res.status(404).json({ message: `Member with id: ${member_id} not found` });
+  }
+
+  // Check if member has active borrows
+  if (member.has_borrowed) {
+    return res.status(400).json({ 
+      message: `cannot delete member with id: ${member_id}, member has an active book borrowing` 
+    });
+  }
+
+  // Delete the member
+  members.delete(member_id);
+  res.status(200).json({ 
+    message: `member with id: ${member_id} has been deleted successfully` 
+  });
+}
+
 const membersController = {
   getAllMembers,
   getMemberById,
   createMember,
-  updateMember
+  updateMember,
+  deleteMember
 };
 
-export { createMember, getAllMembers, getMemberById, updateMember };
+export { createMember, getAllMembers, getMemberById, updateMember, deleteMember };
 export default membersController;
