@@ -1,10 +1,7 @@
 // In-memory storage
 export const members = new Map();
 
-// Add dummy members for testing
-members.set(1, { member_id: 1, name: "Alice", age: 25, has_borrowed: true });
-members.set(2, { member_id: 2, name: "Bob", age: 30, has_borrowed: false });
-members.set(3, { member_id: 3, name: "Charlie", age: 22, has_borrowed: true });
+
 
 const getAllMembers = (req, res) => {
   const allMembers = Array.from(members.values());
@@ -17,23 +14,23 @@ const getMemberById = (req, res) => {
   if (!member) {
     return res.status(404).json({ message: `Member with id: ${member_id} not found` });
   }
-    res.status(200).json(member);
+  res.status(200).json(member);
 }
 
 const createMember = (req, res) => {
   const { member_id, name, age } = req.body;
-    if (!member_id || !name || !age) {
+  if (!member_id || !name || !age) {
     return res.status(400).json({ message: 'member_id, name, and age are required' });
-    }
-    // Check for duplicate ID
-    if (members.has(member_id)) {
+  }
+  // Check for duplicate ID
+  if (members.has(member_id)) {
     return res.status(400).json({
       message: `member with id: ${member_id} already exists`
     });
   }
-    const newMember = { member_id, name, age, has_borrowed: false };
-    members.set(member_id, newMember);
-    res.status(200).json(newMember);
+  const newMember = { member_id, name, age, has_borrowed: false };
+  members.set(member_id, newMember);
+  res.status(200).json(newMember);
 }
 
 const updateMember = (req, res) => {
@@ -44,10 +41,10 @@ const updateMember = (req, res) => {
   if (!member) {
     return res.status(404).json({ message: `Member with id: ${member_id} not found` });
   }
-  if(!name && !age) {
+  if (!name && !age) {
     return res.status(400).json({ message: 'At least one of name or age must be provided for update' });
   }
-  if(age < 12) {
+  if (age < 12) {
     return res.status(400).json({ message: `invalid age: ${age}, must be 12 or older` });
   }
 
@@ -69,15 +66,15 @@ const deleteMember = (req, res) => {
 
   // Check if member has active borrows
   if (member.has_borrowed) {
-    return res.status(400).json({ 
-      message: `cannot delete member with id: ${member_id}, member has an active book borrowing` 
+    return res.status(400).json({
+      message: `cannot delete member with id: ${member_id}, member has an active book borrowing`
     });
   }
 
   // Delete the member
   members.delete(member_id);
-  res.status(200).json({ 
-    message: `member with id: ${member_id} has been deleted successfully` 
+  res.status(200).json({
+    message: `member with id: ${member_id} has been deleted successfully`
   });
 }
 

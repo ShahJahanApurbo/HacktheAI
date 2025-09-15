@@ -1,20 +1,5 @@
 // Books array
-const books = [
-   {
-      book_id: 201,
-      title: "The Hobbit",
-      author: "J.R.R. Tolkien",
-      isbn: "978-0547928227",
-      is_available: false
-   },
-   {
-      book_id: 202,
-      title: "1984",
-      author: "George Orwell",
-      isbn: "978-0451524935",
-      is_available: false
-   }
-];
+const books = [];
 
 // Members array
 const members = [
@@ -105,8 +90,8 @@ export const getBookById = (req, res) => {
    const bookId = parseInt(req.params.id);
    const book = books.find(b => b.book_id === bookId);
 
-   if (!book) { 
-      return res.status(404).json({ message: `book with id: ${bookId} was not found` }); 
+   if (!book) {
+      return res.status(404).json({ message: `book with id: ${bookId} was not found` });
    }
 
    res.status(200).json(book);
@@ -119,11 +104,11 @@ export const deleteBook = (req, res) => {
    if (bookIndex === -1) {
       return res.status(404).json({ message: `book with id: ${bookId} was not found` });
    }
-   
+
    if (!books[bookIndex].is_available) {
       return res.status(400).json({ message: `cannot delete book with id: ${bookId}, book is currently borrowed` });
    }
-   
+
    books.splice(bookIndex, 1);
    res.json({ message: `book with id: ${bookId} has been deleted` });
 }
