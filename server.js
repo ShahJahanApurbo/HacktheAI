@@ -13,7 +13,7 @@ app.use(express.json());
 
 // Base route
 app.get('/', (req, res) => {
-  res.send('Welcome to the Library Members API');
+  res.send('Hello world!');
 });
 
 // API routes
