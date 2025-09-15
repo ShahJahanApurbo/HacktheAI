@@ -3,28 +3,10 @@ const books = [];
 
 // Members array
 const members = [
-   { member_id: 1, member_name: "Alice" },
-   { member_id: 2, member_name: "Bob" },
-   { member_id: 3, member_name: "Charlie" },
-   { member_id: 4, member_name: "Diana" }
 ];
 
 // Transactions (links books to members)
 const transactions = [
-   {
-      transaction_id: 701,
-      book_id: 201,
-      member_id: 3,
-      borrowed_at: "2025-08-20T11:00:00Z",
-      due_date: "2025-09-03T11:00:00Z"
-   },
-   {
-      transaction_id: 702,
-      book_id: 202,
-      member_id: 4,
-      borrowed_at: "2025-08-25T15:30:00Z",
-      due_date: "2025-09-08T15:30:00Z"
-   }
 ];
 
 // Function to calculate days overdue
